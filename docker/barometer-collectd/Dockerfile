@@ -12,9 +12,10 @@ ENV barometer_branch nfvpe/develop
 
 WORKDIR ${repos_dir}
 RUN git clone https://github.com/redhat-nfvpe/barometer
+WORKDIR ${repos_dir}/barometer
+RUN git checkout origin/${barometer_branch}
 WORKDIR ${repos_dir}/barometer/systems
-RUN git checkout origin/${barometer_branch} && \
-        sh ./build_base_machine.sh
+RUN sh ./build_base_machine.sh
 WORKDIR /usr/lib64
 RUN ln -s ../lib/libpqos.so.1 .
 

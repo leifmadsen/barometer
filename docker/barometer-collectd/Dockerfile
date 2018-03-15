@@ -8,11 +8,13 @@ RUN yum update -y && \
 ENV DOCKER y
 ENV repos_dir /src
 ENV openstack_plugins /src/barometer/src/collectd-openstack-plugins
+ENV barometer_branch nfvpe/develop
 
 WORKDIR ${repos_dir}
-RUN git clone https://gerrit.opnfv.org/gerrit/barometer
+RUN git clone https://github.com/redhat-nfvpe/barometer
 WORKDIR ${repos_dir}/barometer/systems
-RUN sh ./build_base_machine.sh
+RUN git checkout origin/${barometer_branch} && \
+        sh ./build_base_machine.sh
 WORKDIR /usr/lib64
 RUN ln -s ../lib/libpqos.so.1 .
 

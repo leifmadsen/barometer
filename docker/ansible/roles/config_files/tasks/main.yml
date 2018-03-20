@@ -29,6 +29,12 @@
   tags:
     - always
 
+- name: enable amqp1 plugin
+  import_tasks: amqp1.yml
+
+- name: enable connectivity plugin
+  import_tasks: connectivity.yml
+
 - name: enable csv plugin
   import_tasks: csv.yml
 
@@ -56,6 +62,9 @@
 - name: enable pmu plugin
   import_tasks: pmu.yml
 
+- name: enable procevent plugin
+  import_tasks: procevent.yml
+
 - name: enable rdt plugin
   import_tasks: rdt.yml
 
@@ -64,6 +73,9 @@
 
 - name: enable snmp_agent plugin
   import_tasks: snmp_agent.yml
+
+- name: enable sysevent plugin
+  import_tasks: sysevent.yml
 
 - name: enable syslog plugin
   import_tasks: syslog.yml

@@ -11,7 +11,7 @@ ENV openstack_plugins /src/barometer/src/collectd-openstack-plugins
 ENV barometer_branch nfvpe/develop
 
 WORKDIR ${repos_dir}
-RUN git clone https://github.com/redhat-nfvpe/barometer
+RUN git clone https://github.com/abays/barometer --branch nfvpe/develop
 WORKDIR ${repos_dir}/barometer
 RUN git checkout origin/${barometer_branch}
 WORKDIR ${repos_dir}/barometer/systems

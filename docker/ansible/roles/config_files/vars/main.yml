@@ -52,5 +52,45 @@ rrdtool_db_dir: "/var/lib/collectd/rrd"
 cache_flush: 120
 write_per_sec: 50
 
+#amqp1 plugin vars
+amqp1_transports:
+  - transport1:
+      name: default
+      ip_addr: localhost
+      port: 5672
+      user: ""
+      password: ""
+      address: "collectd"
+      instances:
+        - instance1:
+            name: notify
+            notify: true
+            format: JSON
+            pre_settle: true
+        - instance2:
+            name: telemetry
+            notify: false
+            format: JSON
+            pre_settle: false
+
+#connectivity plugin vars
+connectivity_interfaces:
+  - eth0
+  - eth1
+
+#procevent plugin vars
+procevent_buffer_length: 100
+procevent_processes:
+  - tuned
+  - ovs-vswitchd
+procevent_regex_processes:
+  - ^openstack.*$
+
+#sysevent plugin vars
+sysevent_listen_ip_addr: localhost
+sysevent_listen_port: 6666
+sysevent_buffer_length: 100
+sysevent_buffer_size: 4096
+
 #additional configuration files path
 additional_configs_path: ""

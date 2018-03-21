@@ -18,8 +18,8 @@ KAFKA_URL ?= https://github.com/edenhill/librdkafka.git
 KAFKA_TAG ?= v0.9.5
 
 # collectd section
-COLLECTD_URL ?= https://github.com/aneeshkp/collectd
-COLLECTD_TAG ?= collectd-5.8-nested
+COLLECTD_URL ?= https://github.com/redhat-nfvpe/collectd
+COLLECTD_TAG ?= nfvpe/develop
 
 COLLECTD_OPENSTACK_URL ?= https://github.com/openstack/collectd-ceilometer-plugin
 COLLECTD_OPENSTACK_TAG ?= stable/pike

@@ -19,13 +19,10 @@ KAFKA_TAG ?= v0.9.5
 
 # collectd section
 COLLECTD_URL ?= https://github.com/redhat-nfvpe/collectd
-COLLECTD_TAG ?= nfvpe/develop
+COLLECTD_TAG ?= collectd-5.8
 
 COLLECTD_OPENSTACK_URL ?= https://github.com/openstack/collectd-ceilometer-plugin
 COLLECTD_OPENSTACK_TAG ?= stable/pike
-
-COLLECTD_AMQP1_PATCH_URL ?= https://github.com/collectd/collectd/pull/2618.patch
-AMQP1_PATCH ?= 2619
 
 QPID_PROTON_URL ?= https://github.com/apache/qpid-proton.git
 QPID_TAG 	?= 0.18.1

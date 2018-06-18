@@ -1,41 +1,51 @@
-# build artifacts
+# --- build artifacts
 FROM centos:7 as collectd_artifacts
 RUN yum update -y && \
-        yum install -y which sudo git && \
-        yum clean all && \
-        git config --global http.sslVerify false
+        yum install -y epel-release && \
+        yum install -y make which sudo qpid-proton-c-devel && \
+        yum clean all
 
 ENV DOCKER y
 ENV repos_dir /src
+ENV WORKSPACE /workspace
 ENV openstack_plugins /src/barometer/src/collectd-openstack-plugins
-ENV barometer_branch nfvpe/develop
 
+# copy in current working source and build RPMs
 WORKDIR ${repos_dir}
-RUN git clone https://github.com/redhat-nfvpe/barometer
-WORKDIR ${repos_dir}/barometer
-RUN git checkout origin/${barometer_branch}
-WORKDIR ${repos_dir}/barometer/systems
-RUN sh ./build_base_machine.sh
-WORKDIR /usr/lib64
-RUN ln -s ../lib/libpqos.so.1 .
+COPY ./ ./barometer
+WORKDIR ${repos_dir}/barometer/ci
+RUN sh ./install_dependencies.sh && sh ./build_rpm.sh
 
-# copy artifacts and create resulting container image
+# obtain openstack collect plugins
+WORKDIR ${openstack_plugins}
+RUN make
+
+
+# --- copy artifacts and create resulting container image
 FROM centos:7
 
-WORKDIR /opt/
-COPY --from=collectd_artifacts /opt/collectd/ collectd/
+ENV openstack_plugins /src/barometer/src/collectd-openstack-plugins
 
-WORKDIR /usr/lib/
-COPY --from=collectd_artifacts /usr/lib/ .
+# collectd openstack plugins
+WORKDIR ${openstack_plugins}
+COPY --from=collectd_artifacts ${openstack_plugins}/collectd-openstack-plugins/ ./
 
-WORKDIR /usr/lib64/
-COPY --from=collectd_artifacts /usr/lib64/ .
+# barometer collectd RPMs
+WORKDIR /var/cache/yum/local
+COPY --from=collectd_artifacts /workspace/rpmbuild/RPMS/x86_64/*.rpm ./
 
-RUN yum -y install net-snmp-libs && yum clean all && rm -rf /var/cache/yum && \
-        useradd -ms /bin/bash collectd_exec && \
-        echo "collectd_exec ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+# install dependencies and collectd
+RUN yum -y install epel-release && yum -y install net-snmp-libs python-pip *.rpm && \
+        yum clean all && rm -rf /var/cache/yum
 
-COPY run_collectd.sh /run_collectd.sh
+# setup sudo and install openstack collectd polugins
+WORKDIR /
+RUN useradd -ms /bin/bash collectd_exec && \
+        echo "collectd_exec ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+        pip install -r ${openstack_plugins}/requirements.txt
+
+# copy in entrypoint script
+COPY ./docker/barometer-collectd/run_collectd.sh /run_collectd.sh
 RUN chmod +x /run_collectd.sh
 
 ENTRYPOINT ["/run_collectd.sh"]

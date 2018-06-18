@@ -1,5 +1,6 @@
 collectd
 collectd-amqp
+collectd-amqp1
 collectd-apache
 collectd-ascent
 collectd-bind
@@ -7,6 +8,7 @@ collectd-ceph
 collectd-chrony
 collectd-collection3
 collectd-contrib
+collected-connectivity
 collectd-curl
 collectd-curl_json
 collectd-curl_xml
@@ -42,6 +44,7 @@ collectd-php-collection
 collectd-pinba
 collectd-ping
 collectd-postgresql
+collectd-procevent
 collectd-python
 collectd-redis
 collectd-rrdcached
@@ -50,6 +53,7 @@ collectd-sensors
 collectd-smart
 collectd-snmp
 collectd-snmp_agent
+collectd-sysevent
 collectd-utils
 collectd-varnish
 collectd-virt

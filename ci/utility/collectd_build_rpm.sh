@@ -41,4 +41,4 @@ sed	--regexp-extended \
 	--expression="s/without_intel_rdt:[0-9]/without_intel_rdt:1/g" \
 	$COLLECTD_DIR/contrib/redhat/collectd.spec
 
-rpmbuild --define "_topdir $RPM_WORKDIR" -bb $COLLECTD_DIR/contrib/redhat/collectd.spec
+rpmbuild --define "_topdir $RPM_WORKDIR" --without lvm -bb $COLLECTD_DIR/contrib/redhat/collectd.spec

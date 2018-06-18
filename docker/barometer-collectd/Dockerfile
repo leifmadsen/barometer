@@ -1,6 +1,6 @@
 # --- build artifacts
-FROM centos:7 as collectd_artifacts
-RUN yum update -y && \
+FROM centos:7.4.1708 as collectd_artifacts
+RUN yum makecache && \
         yum install -y epel-release && \
         yum install -y make which sudo qpid-proton-c-devel && \
         yum clean all
@@ -22,7 +22,7 @@ RUN make
 
 
 # --- copy artifacts and create resulting container image
-FROM centos:7
+FROM centos:7.4.1708
 
 ENV openstack_plugins /src/barometer/src/collectd-openstack-plugins
 

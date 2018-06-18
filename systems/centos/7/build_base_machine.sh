@@ -21,7 +21,7 @@
 #   Martin Klozik, Intel Corporation.
 #   Maryam Tahhan, Intel Corporation.
 # Synchronize package index files
-yum -y update
+yum makecache
 
 # For collectd
 yum install -y yum-utils
